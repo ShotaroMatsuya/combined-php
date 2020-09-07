@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html <?php language_attributes();?>>
+<html <?php language_attributes(); ?>>
 
 <head>
     <meta charset="<?php bloginfo('charset'); ?>">
@@ -13,16 +13,32 @@
             <h1 class="school-logo-text float-left">
                 <a href="<?php echo site_url(); ?>"><strong>Fictional</strong> University</a>
             </h1>
-            <span class="js-search-trigger site-header__search-trigger"><i class="fa fa-search" aria-hidden="true"></i></span>
+            <span class="js-search-trigger site-header__search-trigger">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </span>
             <i class="site-header__menu-trigger fa fa-bars" aria-hidden="true"></i>
             <div class="site-header__menu group">
                 <nav class="main-navigation">
+
+                    <!-- <?php
+                            wp_nav_menu(array(
+                                'theme_location' => 'headerMenuLocation',   /*register_nav_menuの第1引数 */
+                            ));
+                            ?>   -->
+
+
+                    <!-- get_the_ID(0)は現在のページのidを表示する -->
                     <ul>
-                        <li><a href="<?php echo site_url('/about-us'); ?>">About Us</a></li>
+                        <li <?php if (is_page('about-us') or wp_get_post_parent_id(get_the_ID(0) == 13)) echo 'class="current-menu-item"' ?>>
+                            <a href="<?php echo site_url('/about-us'); ?>">About Us</a>
+                        </li>
                         <li><a href="#">Programs</a></li>
                         <li><a href="#">Events</a></li>
                         <li><a href="#">Campuses</a></li>
-                        <li><a href="#">Blog</a></li>
+                        <li <?php if (get_post_type() == 'post') echo 'class="current-menu-item"' ?>>
+                            <!-- post_typeデフォルトだと'post'  -->
+                            <a href="<?php echo site_url('/blog'); ?>">Blog</a>
+                        </li>
                     </ul>
                 </nav>
                 <div class="site-header__util">
