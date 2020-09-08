@@ -8,7 +8,7 @@ function unicersity_files()
     if (strstr($_SERVER['SERVER_NAME'], 'fictional-university.local')) {
         wp_enqueue_script('main-university-js', 'http://localhost:3000/bundled.js', NULL, '1.0', true);
     } else {
-        wp_enqueue_script('our-vendors-js', get_theme_file_uri('/bundled-assets/venders.js'), NULL, '1.0', true);
+        wp_enqueue_script('our-vendors-js', get_theme_file_uri('/bundled-assets/vendors~scripts.8c97d901916ad616a264.js'), NULL, '1.0', true);
         wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.bc49dbb23afb98cfc0f7.js'), NULL, '1.0', true);
         wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.bc49dbb23afb98cfc0f7.css'));
     }
@@ -26,3 +26,25 @@ function university_features()
     add_theme_support('title-tag');
 }
 add_action('after_setup_theme', 'university_features');
+
+function university_adjust_queries($query)
+{
+    if (!is_admin() and is_post_type_archive('event') and $query->is_main_query()) { /*管理画面にいないとき かつ　eventアーカイブにいるとき かつ main-queryにいるとき(意図せずカスタムクエリを操作しないため) */
+        $today = date('Ymd'); /*現在日時 */
+
+        $query->set('meta_key', 'event_date');
+        $query->set('orderby', 'meta_value_num');
+        $query->set('order', 'ASC');
+        $query->set('meta_query', array(     /*filterを設定 */
+            array( /*todayよりも先のものだけ表示 */
+                'key' => 'event_date',
+                'compare' => '>=',
+                'value' => $today,
+                'type' => 'numeric'
+
+            )
+        ));
+    }
+}
+
+add_action('pre_get_posts', 'university_adjust_queries');
