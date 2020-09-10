@@ -1,16 +1,8 @@
 <?php
 get_header();
 while (have_posts()) {
-    the_post(); ?>
-    <div class="page-banner">
-        <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('/images/ocean.jpg'); ?>);"></div>
-        <div class="page-banner__content container container--narrow">
-            <h1 class="page-banner__title"><?php the_title(); ?></h1>
-            <div class="page-banner__intro">
-                <p>Dont forget replace me lator.</p>
-            </div>
-        </div>
-    </div>
+    the_post();
+    pageBanner(); ?>
     <div class="container container--narrow page-section">
         <div class="metabox metabox--position-up metabox--with-home-link">
             <p>
@@ -22,6 +14,41 @@ while (have_posts()) {
         <div class="generic-content"><?php the_content(); ?></div>
         <!-- eventsポストのカスタムクエリを作成(カスタムフィールドでeventsとprogramsは紐付けられている) -->
         <?php
+        $relatedProfessors = new WP_Query(array(  /* custom-queryを作成 (デフォルトだとtypeがpostになっている) */
+            'posts_per_page' => -1, /*全件表示 */
+            'post_type' => 'professor',
+            'orderby' => 'title',
+            'order' => 'ASC',     /*昇順 */
+            'meta_query' => array(     /*filterを設定 */
+                array( /*カスタムフィールドとrelationshipのあるpostのみfiltering */
+                    'key' => 'related_programs', //カスタムフィールド名
+                    'compare' => 'LIKE',
+                    'value' => '"' . get_the_ID() . '"' //現在表示されているpostId
+                )
+            )
+        ));
+
+        if ($relatedProfessors->have_posts()) {
+            echo '<hr class="section-break">';
+            echo '<h2 class="headline headline--medium"> ' . get_the_title() . 'Professors</h2>';
+            echo '<ul class="professor-cards">';
+            while ($relatedProfessors->have_posts()) {
+                $relatedProfessors->the_post(); ?>
+                <li class="professor-card__list-item">
+                    <a class="professor-card" href="<?php the_permalink(); ?>">
+                        <img class="professor-card__image" src="<?php the_post_thumbnail_url('professorLandscape'); ?>"> <!-- add-image-sizeで指定したニックネーム -->
+                        <span class="professor-card__name">
+                            <?php the_title(); ?></span>
+                    </a>
+                </li>
+        <?php }
+            echo '</ul>';
+        }
+        wp_reset_postdata(); /*カスタムクエリをwhileLoopしたあとにはこれをセットするのがbestPractice */
+
+
+
+
         $today = date('Ymd'); /*現在日時 */
         $homepageEvents = new WP_Query(array(  /* custom-queryを作成 (デフォルトだとtypeがpostになっている) */
             'posts_per_page' => 2,
@@ -36,7 +63,7 @@ while (have_posts()) {
                     'value' => $today,
                     'type' => 'numeric'
                 ),
-                array(
+                array( /*カスタムフィールドとrelationshipのあるpostのみfiltering */
                     'key' => 'related_programs', //カスタムフィールド名
                     'compare' => 'LIKE',
                     'value' => '"' . get_the_ID() . '"' //現在表示されているpostId
@@ -44,33 +71,13 @@ while (have_posts()) {
             )
         ));
 
-        while ($homepageEvents->have_posts()) {
-            $homepageEvents->the_post(); ?>
-            <div class="event-summary">
-                <a class="event-summary__date t-center" href="#">
-                    <span class="event-summary__month">
-                        <?php
-                        $eventDate = new DateTime(get_field('event_date')); /* custom-fieldプラグインの持つ関数(valueを取得する) */
-                        echo $eventDate->format('M'); /* JUN JUL SEP  */
-
-                        ?></span>
-                    <span class="event-summary__day">
-                        <?php
-                        $eventDate = new DateTime(get_field('event_date'));
-                        echo $eventDate->format('d'); /* 01-30 */
-
-                        ?></span>
-                </a>
-                <div class="event-summary__content">
-                    <h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
-                    <p><?php if (has_excerpt()) {
-                            echo get_the_excerpt();
-                        } else {
-                            echo wp_trim_words(get_the_content(), 18);
-                        }; ?><a href="<?php the_permalink(); ?>" class="nu gray">Learn more</a></p>
-                </div>
-            </div>
-        <?php
+        if ($homepageEvents->have_posts()) {
+            echo '<hr class="section-break">';
+            echo '<h2 class="headline headline--medium">Upcoming ' . get_the_title() . 'Events</h2>';
+            while ($homepageEvents->have_posts()) {
+                $homepageEvents->the_post();
+                get_template_part('template-parts/content', 'event');
+            }
         }
         ?>
 

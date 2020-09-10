@@ -2,23 +2,29 @@
 get_header();
 while (have_posts()) {
     the_post();
-    pageBanner(); ?>
+    pageBanner();
+
+?>
     <div class="container container--narrow page-section">
-        <div class="metabox metabox--position-up metabox--with-home-link">
-            <p>
-                <a class="metabox__blog-home-link" href="<?php echo get_post_type_archive_link('event'); ?>"><i class="fa fa-home" aria-hidden="true"></i> Events Home
-                </a> <!--  アーカイブリンクの生成 -->
-                <span class="metabox__main"><?php the_title(); ?></span>
-            </p>
+        <div class="generic-content">
+            <div class="row group">
+                <!-- 2カラムレイアウト -->
+                <div class="one-third">
+                    <?php the_post_thumbnail('professorPortrait'); ?>
+                </div>
+                <div class="two-third">
+                    <?php the_content(); ?>
+                </div>
+
+            </div>
         </div>
-        <div class="generic-content"><?php the_content(); ?></div>
         <?php
 
         $relatedPrograms = get_field('related_programs');  /*カスタムフィールドに設定したFieldNameをセットするとarrayが帰ってくる */
         if ($relatedPrograms) {
 
             echo '<hr class="section-break">';
-            echo '<h2 class="headline headline--medium">Related Program(s)</h2>';
+            echo '<h2 class="headline headline--medium">Subject(s) Taught</h2>';
             echo '<ul class="link-list min-list">';
             foreach ($relatedPrograms as $program) { /* $programはオブジェクト */ ?>
                 <li><a href="<?php echo get_the_permalink($program); ?>">
