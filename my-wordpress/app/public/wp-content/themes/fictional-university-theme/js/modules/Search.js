@@ -3,6 +3,7 @@ import $ from "jquery";
 class Search {
   //1. describe and create/initiate our object
   constructor() {
+    this.addSearchHTML(); //最初にDOMを生成
     this.resultsDiv = $("#search-overlay__results");
     this.openButton = $(".js-search-trigger");
     this.closeButton = $(".search-overlay__close");
@@ -29,12 +30,14 @@ class Search {
       //文字入力以外のkeyを押したときにrequestを再度実行しないように
       clearTimeout(this.typingTimer);
       if (this.searchField.val()) {
+        //入力時
         if (!this.isSpinnerVisible) {
           this.resultsDiv.html('<div class="spinner-loader"></div>');
           this.isSpinnerVisible = true;
         }
-        this.typingTimer = setTimeout(this.getResults.bind(this), 2000);
+        this.typingTimer = setTimeout(this.getResults.bind(this), 750);
       } else {
+        //まだ入力してないとき
         this.resultsDiv.html("");
         this.isSpinnerVisible = false;
       }
@@ -42,15 +45,54 @@ class Search {
     this.previousValue = this.searchField.val();
   }
   getResults() {
-    this.resultsDiv.html("Imagine real search results here ...");
-    this.isSpinnerVisible = false;
+    //whenメソッド内部の処理はasynchronousに実行される
+    //すべての処理が終了したらthenメソッド内部の処理が実行される
+    $.when(
+      $.getJSON(
+        //functions.phpから値(universityDataを取得)
+        universityData.root_url +
+          "/wp-json/wp/v2/posts?search=" +
+          this.searchField.val()
+      ),
+      $.getJSON(
+        universityData.root_url +
+          "/wp-json/wp/v2/pages?search=" +
+          this.searchField.val()
+      )
+    ).then(
+      (posts, pages) => {
+        var combinedResults = posts[0].concat(pages[0]); //2つのarrayを結合
+        this.resultsDiv.html(`
+        <h2 class="search-overlay__section-title">General Information</h2>
+        ${
+          combinedResults.length
+            ? '<ul class="link-list min-list">'
+            : "<p>No general information matches that search.</p>"
+        }
+        ${combinedResults
+          .map(
+            (item) =>
+              `<li><a href="${item.link}">${item.title.rendered}</a></li>`
+          )
+          .join("")}
+        ${combinedResults.length ? "</ul>" : ""}
+        `);
+        //htmlElementが格納された配列をtemplateLiteralで展開するとそのままHTMLドキュメントとして出力される
+        //join('')を使うことで、arrayの区切り(カンマ)をなくしてstrings型として展開することができる
+        this.isSpinnerVisible = false;
+      },
+      () => {
+        //thenメソッドの第2引数にerror時のコールバックを書く
+        this.resultsDiv.html("<p>Unexpected Error; Please try again.</p>");
+      }
+    );
   }
 
   keyPressDispatcher(e) {
     if (
       e.keyCode == 83 &&
       !this.isOverlayOpen &&
-      !$("input textarea").is(":focus") //page内のフォームがフォーカスされている場合はsearch-overlayが表示されないようにする
+      !$("input, textarea").is(":focus") //page内のフォームがフォーカスされている場合はsearch-overlayが表示されないようにする
     ) {
       this.openOverlay();
     }
@@ -61,12 +103,30 @@ class Search {
   openOverlay() {
     this.searchOverlay.addClass("search-overlay--active");
     $("body").addClass("body-no-scroll");
+    this.searchField.val("");
+    setTimeout(() => this.searchField.focus(), 301); //fadeInが300msなので少し遅めにする
     this.isOverlayOpen = true;
   }
   closeOverlay() {
     this.searchOverlay.removeClass("search-overlay--active");
     $("body").removeClass("body-no-scroll");
     this.isOverlayOpen = false;
+  }
+  addSearchHTML() {
+    $("body").append(`
+    <div class="search-overlay">
+        <div class="search-overlay__top">
+            <div class="container">
+                <i class="fa fa-search search-overlay__icon" aria-hidden="true"></i>
+                <input type="text" class="search-term" placeholder="What are you looking for?" id="search-term">
+                <i class="fa fa-window-close search-overlay__close" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="container">
+            <div id="search-overlay__results"></div>
+        </div>
+    </div>
+    `);
   }
 }
 
