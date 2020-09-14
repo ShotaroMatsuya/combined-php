@@ -39,6 +39,17 @@ function universitySearchResults($data)
             ));
         }
         if (get_post_type() == 'program') {
+
+            $relatedCampuses = get_field('related_campus');
+            if ($relatedCampuses) {
+                foreach ($relatedCampuses as $campus) {
+                    array_push($results['campuses'], array(
+                        'title' => get_the_title($campus), //postオブジェクトを引数に入れる
+                        'permalink' => get_the_title($campus)
+                    ));
+                }
+            }
+
             array_push($results['programs'], array(
                 'title' => get_the_title(),
                 'permalink' => get_the_permalink(),
@@ -71,7 +82,7 @@ function universitySearchResults($data)
     }
 
     if ($results['programs']) {
-        $programsMetaQuery = array('relation' => 'OR');
+        $programsMetaQuery = array('relation' => 'OR'); //meta_queryの条件はdefaultだとandになっている
         foreach ($results['programs'] as $item) {
             array_push($programsMetaQuery, array(
                 'key' => 'related_programs', //custom-field名
@@ -81,19 +92,44 @@ function universitySearchResults($data)
         }
 
         $programRelationshipQuery = new WP_Query(array(
-            'post_type' => 'professor', //カスタムクエリのpost-type
+            'post_type' => array('professor', 'event'), //カスタムクエリのpost-type
             // 'meta_query' => array(
             //     'relation' => 'OR',
             //     array(  //filtering
             //         'key' => 'related_programs', //custom-field名
             //         'compare' => 'LIKE',
             //         'value' => '"' . $results['programs'][0]['id'] . '"', //jsonファイル内でjsonファイルのdataを参照
+            //     ),
+            //     array(  //filtering
+            //         'key' => 'related_programs', //custom-field名
+            //         'compare' => 'LIKE',
+            //         'value' => '"' . $results['programs'][1]['id'] . '"', //該当するprogramsが複数あるとき
             //     )
             // )
             'meta_query' => $programsMetaQuery,
         ));
         while ($programRelationshipQuery->have_posts()) {
             $programRelationshipQuery->the_post();
+
+            if (get_post_type() == 'event') {
+                $eventDate = new DateTime(get_field('event_date'));
+                $description = null;
+                if (has_excerpt()) {
+                    $description = get_the_excerpt();
+                } else {
+                    $description =  wp_trim_words(get_the_content(), 18);
+                };
+
+                array_push($results['events'], array(
+                    'title' => get_the_title(),
+                    'permalink' => get_the_permalink(),
+                    'month' => $eventDate->format('M'),
+                    'day' => $eventDate->format('d'),
+                    'description' => $description
+                ));
+            }
+
+
             if (get_post_type() == 'professor') {
                 array_push($results['professors'], array(
                     'title' => get_the_title(),
@@ -103,6 +139,7 @@ function universitySearchResults($data)
             }
         }
         $results['professors'] = array_values(array_unique($results['professors'], SORT_REGULAR));
+        $results['events'] = array_values(array_unique($results['events'], SORT_REGULAR));
         //array_unique関数は重複する要素を削除して一つにしてくれる
         //array_values()を使用してキーを振り直す
     }
