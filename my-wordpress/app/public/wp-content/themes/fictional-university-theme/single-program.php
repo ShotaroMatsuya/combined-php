@@ -11,7 +11,7 @@ while (have_posts()) {
                 <span class="metabox__main"><?php the_title(); ?></span>
             </p>
         </div>
-        <div class="generic-content"><?php the_content(); ?></div>
+        <div class="generic-content"><?php the_field('main_body_content'); ?></div>
         <!-- eventsポストのカスタムクエリを作成(カスタムフィールドでeventsとprogramsは紐付けられている) -->
         <?php
         $relatedProfessors = new WP_Query(array(  /* custom-queryを作成 (デフォルトだとtypeがpostになっている) */

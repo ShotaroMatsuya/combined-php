@@ -1,4 +1,18 @@
 <?php
+require get_theme_file_path('/inc/search-route.php');
+
+
+function university_custom_rest()
+{   //第一引数はカスタムしたいpost-type、第２引数は追加したいproperty-name
+    //第三引数はarray、authorNameのpropにセットしたいvalueをreturnする関数をセット
+    register_rest_field('post', 'authorName', array(
+        'get_callback' => function () {
+            return get_the_author();
+        }
+    ));
+}
+//REST APIをカスタマイズする
+add_action('rest_api_init', 'university_custom_rest');
 
 function pageBanner($args = NULL)
 {
@@ -43,8 +57,8 @@ function university_files()
         wp_enqueue_script('main-university-js', 'http://localhost:3000/bundled.js', NULL, '1.0', true);
     } else {
         wp_enqueue_script('our-vendors-js', get_theme_file_uri('/bundled-assets/vendors~scripts.9678b4003190d41dd438.js'), NULL, '1.0', true);
-        wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.2b7ad76b8a40e436d519.js'), NULL, '1.0', true);
-        wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.2b7ad76b8a40e436d519.css'));
+        wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.d26fddb8410e78826dd8.js'), NULL, '1.0', true);
+        wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.d26fddb8410e78826dd8.css'));
     }
     wp_localize_script('main-university-js', 'universityData', array( //指定されたjsファイル内にdataを渡すことができるBuilt-in-function
         'root_url' => get_site_url(), //現在のurlを取得
