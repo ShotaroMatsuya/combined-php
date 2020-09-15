@@ -207,7 +207,7 @@ class Search {
     if (
       e.keyCode == 83 &&
       !this.isOverlayOpen &&
-      !$("input, textarea").is(":focus") //page内のフォームがフォーカスされている場合はsearch-overlayが表示されないようにする
+      !$("input, textarea").is(":focus") // page内のフォームがフォーカスされている場合はsearch-overlayが表示されないようにする
     ) {
       this.openOverlay();
     }
@@ -221,6 +221,7 @@ class Search {
     this.searchField.val("");
     setTimeout(() => this.searchField.focus(), 301); //fadeInが300msなので少し遅めにする
     this.isOverlayOpen = true;
+    return false;
   }
   closeOverlay() {
     this.searchOverlay.removeClass("search-overlay--active");

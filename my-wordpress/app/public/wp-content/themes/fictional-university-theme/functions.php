@@ -57,8 +57,8 @@ function university_files()
         wp_enqueue_script('main-university-js', 'http://localhost:3000/bundled.js', NULL, '1.0', true);
     } else {
         wp_enqueue_script('our-vendors-js', get_theme_file_uri('/bundled-assets/vendors~scripts.9678b4003190d41dd438.js'), NULL, '1.0', true);
-        wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.31ee063bf7c89700704a.js'), NULL, '1.0', true);
-        wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.31ee063bf7c89700704a.css'));
+        wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.94a757b907734cb51f99.js'), NULL, '1.0', true);
+        wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.94a757b907734cb51f99.css'));
     }
     wp_localize_script('main-university-js', 'universityData', array( //指定されたjsファイル内にdataを渡すことができるBuilt-in-function
         'root_url' => get_site_url(), //現在のurlを取得
@@ -124,3 +124,44 @@ function universityMapKey($api)
 }
 
 add_filter('acf/fields/google_map/api', 'universityMapKey');
+
+
+// Redirect subscriber accounts out of admin and onto homepage
+add_action('admin_init', 'redirectSubsToFrontend');
+
+function redirectSubsToFrontend()
+{
+    $ourCurrentUser = wp_get_current_user(); //user情報の取得（オブジェクト型)
+    if (count($ourCurrentUser->roles) == 1 and $ourCurrentUser->roles[0] == 'subscriber') {
+        wp_redirect(site_url('/'));
+        exit; //redirect時には必ずexit
+    }
+}
+add_action('wp_loaded', 'noSubsAdminBar');
+
+function noSubsAdminBar()
+{
+    $ourCurrentUser = wp_get_current_user();
+    if (count($ourCurrentUser->roles) == 1 and $ourCurrentUser->roles[0] == 'subscriber') {
+        show_admin_bar(false);
+    }
+}
+//Customize Login Screen
+add_filter('login_headerurl', 'ourHeaderUrl');
+function ourHeaderUrl()
+{
+    return esc_url(site_url('/'));
+}
+add_action('login_enqueue_scripts', 'ourLoginCSS');
+function ourLoginCSS()
+{
+    wp_enqueue_style('custom-google-fonts', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
+
+    wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.94a757b907734cb51f99.css'));
+}
+
+add_filter('login_headertitle', 'ourLoginTitle');
+function ourLoginTitle()
+{
+    return get_bloginfo('name');
+}
