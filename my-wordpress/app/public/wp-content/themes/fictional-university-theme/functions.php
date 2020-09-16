@@ -57,11 +57,12 @@ function university_files()
         wp_enqueue_script('main-university-js', 'http://localhost:3000/bundled.js', NULL, '1.0', true);
     } else {
         wp_enqueue_script('our-vendors-js', get_theme_file_uri('/bundled-assets/vendors~scripts.9678b4003190d41dd438.js'), NULL, '1.0', true);
-        wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.94a757b907734cb51f99.js'), NULL, '1.0', true);
-        wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.94a757b907734cb51f99.css'));
+        wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.ff24b615e4d54340dcd9.js'), NULL, '1.0', true);
+        wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.ff24b615e4d54340dcd9.css'));
     }
     wp_localize_script('main-university-js', 'universityData', array( //指定されたjsファイル内にdataを渡すことができるBuilt-in-function
         'root_url' => get_site_url(), //現在のurlを取得
+        'nonce' => wp_create_nonce('wp_rest'), //ログインしたときにユーザーにランダムに生成されるtoken
 
 
     ));
@@ -157,7 +158,7 @@ function ourLoginCSS()
 {
     wp_enqueue_style('custom-google-fonts', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
 
-    wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.94a757b907734cb51f99.css'));
+    wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.ff24b615e4d54340dcd9.css'));
 }
 
 add_filter('login_headertitle', 'ourLoginTitle');
