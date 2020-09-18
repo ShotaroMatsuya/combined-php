@@ -10,6 +10,11 @@ function university_custom_rest()
             return get_the_author();
         }
     ));
+    register_rest_field('note', 'userNoteCount', array(
+        'get_callback' => function () {
+            return count_user_posts(get_current_user_id(), 'note'); //userIdに紐付いているpostの数を返す
+        }
+    ));
 }
 //REST APIをカスタマイズする
 add_action('rest_api_init', 'university_custom_rest');
@@ -57,8 +62,8 @@ function university_files()
         wp_enqueue_script('main-university-js', 'http://localhost:3000/bundled.js', NULL, '1.0', true);
     } else {
         wp_enqueue_script('our-vendors-js', get_theme_file_uri('/bundled-assets/vendors~scripts.9678b4003190d41dd438.js'), NULL, '1.0', true);
-        wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.ff24b615e4d54340dcd9.js'), NULL, '1.0', true);
-        wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.ff24b615e4d54340dcd9.css'));
+        wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.4c2d86bde67e623eb0c7.js'), NULL, '1.0', true);
+        wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.4c2d86bde67e623eb0c7.css'));
     }
     wp_localize_script('main-university-js', 'universityData', array( //指定されたjsファイル内にdataを渡すことができるBuilt-in-function
         'root_url' => get_site_url(), //現在のurlを取得
@@ -158,11 +163,30 @@ function ourLoginCSS()
 {
     wp_enqueue_style('custom-google-fonts', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
 
-    wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.ff24b615e4d54340dcd9.css'));
+    wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.4c2d86bde67e623eb0c7.css'));
 }
 
 add_filter('login_headertitle', 'ourLoginTitle');
 function ourLoginTitle()
 {
     return get_bloginfo('name');
+}
+// Force note posts to be private
+add_filter('wp_insert_post_data', 'makeNotePrivate', 10, 2); //post が投稿(削除/編集)されてdbに保存される際に呼び出される
+//'makeNotePrivateが２つの引数を受け取っているのでfilterにさらに２つの引数を追加(10は複数のfilterがセットされたときの優先順位、2は引数の数を表している
+
+function makeNotePrivate($data, $postarr) //第２引数でpostのidを受け取ることができる
+{
+    if ($data['post_type'] == 'note') {
+        if (count_user_posts(get_current_user_id(), 'note') > 4 and !$postarr['ID']) { //新規作成時にのみ有効
+            die("You have reached your note limit . ");
+        }
+        $data['post_content'] = sanitize_textarea_field($data['post_content']);
+        $data['post_title'] = sanitize_text_field($data['post_title']);
+    }
+    if ($data['post_type'] == 'note' and $data['post_status'] != 'trash') {
+        $data['post_status'] = "private";
+    }
+
+    return $data;
 }

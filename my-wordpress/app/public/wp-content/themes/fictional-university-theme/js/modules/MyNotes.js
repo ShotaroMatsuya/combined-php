@@ -5,9 +5,14 @@ class MyNotes {
     this.events();
   }
   events() {
-    $(".delete-note").on("click", this.deleteNote);
-    $(".edit-note").on("click", this.editNote.bind(this)); //thisをクラスインスタンスにバインドする(クリックしたhtmlエレメントにバインドされないように)
-    $(".update-note").on("click", this.updateNote.bind(this));
+    // $(".delete-note").on("click", this.deleteNote); //このままだと最初に読み込まれたDOMにしかイベントリスナーが登録されないので以下のように変える
+    $("#my-notes").on("click", ".delete-note", this.deleteNote); //これで新規作成されたばかりのpostも消去できるようになる
+
+    // $(".edit-note").on("click", this.editNote.bind(this)); //thisをクラスインスタンスにバインドする(クリックしたhtmlエレメントにバインドされないように)
+    $("#my-notes").on("click", ".edit-note", this.editNote.bind(this));
+    // $(".update-note").on("click", this.updateNote.bind(this));
+    $("#my-notes").on("click", ".update-note", this.updateNote.bind(this));
+    $(".submit-note").on("click", this.createNote.bind(this));
   }
   //Methods will go here
   editNote(e) {
@@ -63,6 +68,7 @@ class MyNotes {
       }, //失敗時の関数をセット
     });
   }
+
   updateNote(e) {
     var thisNote = $(e.target).parents("li");
     var ourUpdatedPost = {
@@ -83,6 +89,52 @@ class MyNotes {
         console.log(response);
       }, //成功時の関数をセット
       error: (response) => {
+        console.log("Sorry");
+        console.log(response);
+      }, //失敗時の関数をセット
+    });
+  }
+  createNote(e) {
+    var ourNewPost = {
+      title: $(".new-note-title").val(),
+      content: $(".new-note-body").val(),
+      // status: "publish", //defaultだとprivateになっている
+      status: "publish",
+    };
+    $.ajax({
+      beforeSend: (xhr) => {
+        xhr.setRequestHeader("X-WP-NONCE", universityData.nonce); //wordpressが送られたhttpリクエストのトークン(nonce)をcheckするために必要
+      },
+      url: universityData.root_url + "/wp-json/wp/v2/note/", //endpoint
+      type: "POST", //method
+      data: ourNewPost,
+      success: (response) => {
+        $(".new-note-title, .new-note-body").val("");
+        $(`
+        <li data-id="${response.id}">
+            <input readonly class="note-title-field" value="${response.title.raw}"> <!-- htmlタグに出力する場合にはesc_attrを用いる -->
+            <span class="edit-note"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</span>
+            <span class="delete-note"><i class="fa fa-trash-o" aria-hidden="true"></i>Delete</span>
+
+            <textarea readonly class="note-body-field">${response.content.raw}</textarea>
+            <span class="update-note btn btn--blue btn--small"><i class="fa fa-arrow-right" aria-hidden="true"></i>Save</span>
+
+        </li>           
+        
+        `)
+          .prependTo("#my-notes")
+          .hide()
+          .slideDown();
+        console.log("Congrats");
+        console.log(response);
+        if (response.userNoteCount < 5) {
+          $(".note-limit-message").removeClass("active");
+        }
+      }, //成功時の関数をセット
+      error: (response) => {
+        if (response.responseText == "You have reached your note limit . ") {
+          $(".note-limit-message").addClass("active");
+        }
         console.log("Sorry");
         console.log(response);
       }, //失敗時の関数をセット
