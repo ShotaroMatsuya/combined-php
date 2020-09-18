@@ -61,6 +61,9 @@ class MyNotes {
         thisNote.slideUp();
         console.log("Congrats");
         console.log(response);
+        if (response.userNoteCount < 5) {
+          $(".note-limit-message").removeClass("active");
+        }
       }, //成功時の関数をセット
       error: (response) => {
         console.log("Sorry");
@@ -127,9 +130,6 @@ class MyNotes {
           .slideDown();
         console.log("Congrats");
         console.log(response);
-        if (response.userNoteCount < 5) {
-          $(".note-limit-message").removeClass("active");
-        }
       }, //成功時の関数をセット
       error: (response) => {
         if (response.responseText == "You have reached your note limit . ") {
