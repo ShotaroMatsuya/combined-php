@@ -45,7 +45,7 @@ function universitySearchResults($data)
                 foreach ($relatedCampuses as $campus) {
                     array_push($results['campuses'], array(
                         'title' => get_the_title($campus), //postオブジェクトを引数に入れる
-                        'permalink' => get_the_title($campus)
+                        'permalink' => get_the_permalink($campus)
                     ));
                 }
             }

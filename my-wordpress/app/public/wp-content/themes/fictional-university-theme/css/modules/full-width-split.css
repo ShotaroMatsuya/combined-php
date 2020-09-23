@@ -13,6 +13,7 @@
     .full-width-split__inner {
       @mixin atMedium {
         float: right;
+        width: 80%;
       }
     }
   }
@@ -27,7 +28,6 @@
   }
 
   &__inner {
-    
     @media (min-width: 1350px) {
       width: 610px;
     }

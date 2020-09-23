@@ -16,8 +16,8 @@ while (have_posts()) {
             <h2 class="headline headline--medium">Create New Note</h2>
             <input class="new-note-title" placeholder="Title">
             <textarea class="new-note-body" placeholder="Your note here..."></textarea>
-            <span class="submit-note">Create Note</span>
-            <span class="note-limit-message">Note limit reached: delete an existing note to make room for a new one.</span>
+            <span class="submit-note">新規作成</span>
+            <span class="note-limit-message">最大制限を超えています: 既存のノートを削除してください</span>
         </div>
         <ul class="min-list link-list" id="my-notes">
             <?php $userNotes = new WP_Query(array(
@@ -30,7 +30,7 @@ while (have_posts()) {
                 $userNotes->the_post();
             ?>
                 <li data-id="<?php the_ID(); ?>">
-                    <input readonly class="note-title-field" value="<?php echo str_replace('Private: ', '', esc_attr(get_the_title())); ?>"> <!-- htmlタグに出力する場合にはesc_attrを用いる -->
+                    <input readonly class="note-title-field" value="<?php echo str_replace('非公開:', '', esc_attr(get_the_title())); ?>"> <!-- htmlタグに出力する場合にはesc_attrを用いる -->
                     <span class="edit-note"><i class="fa fa-pencil" aria-hidden="true"></i>Edit</span>
                     <span class="delete-note"><i class="fa fa-trash-o" aria-hidden="true"></i>Delete</span>
 

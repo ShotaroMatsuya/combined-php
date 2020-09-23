@@ -18,7 +18,7 @@ pageBanner(array(
 
         ?>
         <hr class="section-break">
-        <p>Looking for a recap of past events? <a href="<?php echo site_url('/past-event') ?>">check out our past events archive</a></p>
+        <p>過去のイベント情報 <a href="<?php echo site_url('/past-event') ?>">過去のイベント情報保管庫です</a></p>
 
     </div>
     <?php

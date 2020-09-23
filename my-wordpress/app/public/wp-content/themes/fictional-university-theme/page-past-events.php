@@ -1,8 +1,8 @@
 <?php
 get_header();
 pageBanner(array(
-    'title' => 'Past Events',
-    'subtitle' => 'A recap of our past events.'
+    'title' => '過去イベント一覧',
+    'subtitle' => '過去イベント保管庫です'
 )); ?>
 <div>
 

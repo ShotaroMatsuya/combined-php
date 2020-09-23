@@ -1,7 +1,7 @@
 <?php
 get_header();
 pageBanner(array(
-    'title' => 'All Programs',
+    'title' => '学科情報',
     'subtitle' => 'There is something for everyone. Have a look around.
     '
 )) ?>

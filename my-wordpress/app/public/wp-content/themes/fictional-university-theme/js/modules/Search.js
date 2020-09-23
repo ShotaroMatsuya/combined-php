@@ -1,14 +1,14 @@
-import $ from "jquery";
+import $ from 'jquery';
 
 class Search {
   //1. describe and create/initiate our object
   constructor() {
     this.addSearchHTML(); //最初にDOMを生成
-    this.resultsDiv = $("#search-overlay__results");
-    this.openButton = $(".js-search-trigger");
-    this.closeButton = $(".search-overlay__close");
-    this.searchOverlay = $(".search-overlay");
-    this.searchField = $("#search-term");
+    this.resultsDiv = $('#search-overlay__results');
+    this.openButton = $('.js-search-trigger');
+    this.closeButton = $('.search-overlay__close');
+    this.searchOverlay = $('.search-overlay');
+    this.searchField = $('#search-term');
     this.events();
     this.isOverlayOpen = false;
     this.isSpinnerVisible = false;
@@ -17,11 +17,11 @@ class Search {
   }
   //2 . events
   events() {
-    this.openButton.on("click", this.openOverlay.bind(this));
-    this.closeButton.on("click", this.closeOverlay.bind(this));
+    this.openButton.on('click', this.openOverlay.bind(this));
+    this.closeButton.on('click', this.closeOverlay.bind(this));
     // callbackのthisはclickしたhtmlDocumentに変わってしまうのでbindする必要がある
-    $(document).on("keydown", this.keyPressDispatcher.bind(this));
-    this.searchField.on("keyup", this.typingLogic.bind(this)); //"keydown"にしてしまうとinputのvalueをupdateする前にfireされてしまうのでここは"keyup"を用いる
+    $(document).on('keydown', this.keyPressDispatcher.bind(this));
+    this.searchField.on('keyup', this.typingLogic.bind(this)); //"keydown"にしてしまうとinputのvalueをupdateする前にfireされてしまうのでここは"keyup"を用いる
   }
 
   //3. methods (function, action...)
@@ -38,7 +38,7 @@ class Search {
         this.typingTimer = setTimeout(this.getResults.bind(this), 750);
       } else {
         //まだ入力してないとき
-        this.resultsDiv.html("");
+        this.resultsDiv.html('');
         this.isSpinnerVisible = false;
       }
     }
@@ -47,9 +47,9 @@ class Search {
   getResults() {
     $.getJSON(
       universityData.root_url +
-        "/wp-json/university/v1/search?term=" +
+        '/wp-json/university/v1/search?term=' +
         this.searchField.val(),
-      (results) => {
+      results => {
         this.resultsDiv.html(`
         <div class="row">
           <div class="one-third">
@@ -57,41 +57,40 @@ class Search {
             ${
               results.generalInfo.length
                 ? '<ul class="link-list min-list">'
-                : "<p>No general information matches that search.</p>"
+                : '<p>検索結果がありません</p>'
             }
             ${results.generalInfo
               .map(
-                (item) =>
+                item =>
                   `<li><a href="${item.permalink}">${item.title}</a> ${
-                    item.postType == "post" ? `by ${item.authorName}` : ""
+                    item.postType == 'post' ? `by ${item.authorName}` : ''
                   }</li>`
               )
-              .join("")}
-            ${results.generalInfo.length ? "</ul>" : ""}
+              .join('')}
+            ${results.generalInfo.length ? '</ul>' : ''}
           </div>
           <div class="one-third">
-            <h2 class="search-overlay__section-title">Programs</h2>
+            <h2 class="search-overlay__section-title">講義</h2>
             ${
               results.programs.length
                 ? '<ul class="link-list min-list">'
-                : `<p>No programs match that search. <a href="${universityData.root_url}/programs">View all programs</a></p>`
+                : `<p>検索結果はありません<a href="${universityData.root_url}/programs">View all programs</a></p>`
             }
             ${results.programs
               .map(
-                (item) =>
-                  `<li><a href="${item.permalink}">${item.title}</a></li>`
+                item => `<li><a href="${item.permalink}">${item.title}</a></li>`
               )
-              .join("")}
-            ${results.programs.length ? "</ul>" : ""}
-            <h2 class="search-overlay__section-title">Professors</h2>
+              .join('')}
+            ${results.programs.length ? '</ul>' : ''}
+            <h2 class="search-overlay__section-title">教授</h2>
             ${
               results.professors.length
                 ? '<ul class="professor-cards">'
-                : `<p>No professors match that search. </p>`
+                : `<p>検索結果はありません</p>`
             }
             ${results.professors
               .map(
-                (item) => `
+                item => `
                 <li class="professor-card__list-item">
                     <a class="professor-card" href="${item.permalink}">
                         <img class="professor-card__image" src="${item.image}"> 
@@ -101,8 +100,8 @@ class Search {
                 </li>
             `
               )
-              .join("")}
-            ${results.professors.length ? "</ul>" : ""}
+              .join('')}
+            ${results.professors.length ? '</ul>' : ''}
 
           </div>
           <div class="one-third">
@@ -110,26 +109,25 @@ class Search {
             ${
               results.campuses.length
                 ? '<ul class="link-list min-list">'
-                : `<p>No campuses match that search. <a href="${universityData.root_url}/campuses">View all campuses</a></p>`
+                : `<p>キャンパスはありません<a href="${universityData.root_url}/campuses">View all campuses</a></p>`
             }
             ${results.campuses
               .map(
-                (item) =>
-                  `<li><a href="${item.permalink}">${item.title}</a></li>`
+                item => `<li><a href="${item.permalink}">${item.title}</a></li>`
               )
-              .join("")}
-            ${results.campuses.length ? "</ul>" : ""}
+              .join('')}
+            ${results.campuses.length ? '</ul>' : ''}
 
 
             <h2 class="search-overlay__section-title">Events</h2>    
             ${
               results.events.length
-                ? ""
-                : `<p>No events match that search. <a href="${universityData.root_url}/events">View all events</a></p>`
+                ? ''
+                : `<p>イベント情報がありません<a href="${universityData.root_url}/events">View all events</a></p>`
             }
             ${results.events
               .map(
-                (item) =>
+                item =>
                   `
                   <div class="event-summary">
                   <a class="event-summary__date t-center" href="${item.permalink}">
@@ -148,7 +146,7 @@ class Search {
                   
                   `
               )
-              .join("")}
+              .join('')}
       
           </div>
         </div>
@@ -207,7 +205,7 @@ class Search {
     if (
       e.keyCode == 83 &&
       !this.isOverlayOpen &&
-      !$("input, textarea").is(":focus") // page内のフォームがフォーカスされている場合はsearch-overlayが表示されないようにする
+      !$('input, textarea').is(':focus') // page内のフォームがフォーカスされている場合はsearch-overlayが表示されないようにする
     ) {
       this.openOverlay();
     }
@@ -216,20 +214,20 @@ class Search {
     }
   }
   openOverlay() {
-    this.searchOverlay.addClass("search-overlay--active");
-    $("body").addClass("body-no-scroll");
-    this.searchField.val("");
+    this.searchOverlay.addClass('search-overlay--active');
+    $('body').addClass('body-no-scroll');
+    this.searchField.val('');
     setTimeout(() => this.searchField.focus(), 301); //fadeInが300msなので少し遅めにする
     this.isOverlayOpen = true;
     return false;
   }
   closeOverlay() {
-    this.searchOverlay.removeClass("search-overlay--active");
-    $("body").removeClass("body-no-scroll");
+    this.searchOverlay.removeClass('search-overlay--active');
+    $('body').removeClass('body-no-scroll');
     this.isOverlayOpen = false;
   }
   addSearchHTML() {
-    $("body").append(`
+    $('body').append(`
     <div class="search-overlay">
         <div class="search-overlay__top">
             <div class="container">

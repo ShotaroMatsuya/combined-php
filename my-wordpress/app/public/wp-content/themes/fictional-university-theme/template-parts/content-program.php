@@ -3,6 +3,6 @@
 
     <div class="generic-content">
         <?php the_excerpt(); ?>
-        <p><a class="btn btn--blue" href="<?php the_permalink(); ?>">View Program &raquo;</a></p>
+        <p><a class="btn btn--blue" href="<?php the_permalink(); ?>">講義の詳細をみる &raquo;</a></p>
     </div>
 </div>

@@ -15,7 +15,7 @@ pageBanner(array(
             }
             echo paginate_links();
         } else {
-            echo '<h2 class="headline headline--small-plus">No results match that search.</h2>';
+            echo '<h2 class="headline headline--small-plus">検索結果がみつかりませんでした</h2>';
         }
 
         get_search_form();

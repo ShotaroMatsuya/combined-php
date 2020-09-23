@@ -11,7 +11,7 @@
     <header class="site-header">
         <div class="container">
             <h1 class="school-logo-text float-left">
-                <a href="<?php echo site_url(); ?>"><strong>Fictional</strong> University</a>
+                <a href="<?php echo site_url(); ?>"><strong style="font-weight:bold;">架空</strong> 保健医療大学</a>
                 <!--引数なしでルートpath -->
             </h1>
             <a href="<?php echo esc_url(site_url('/search')) ?>" class="js-search-trigger site-header__search-trigger">
@@ -33,12 +33,12 @@
                         <li <?php if (is_page('about-us') or wp_get_post_parent_id(get_the_ID(0) == 13)) echo 'class="current-menu-item"' ?>>
                             <a href="<?php echo site_url('/about-us'); ?>">About Us</a>
                         </li>
-                        <li <?php if (get_post_type() == 'program') echo 'class="current-menu-item"' ?>><a href="<?php echo get_post_type_archive_link('program') ?>">Programs</a></li>
-                        <li <?php if (get_post_type() == 'event' or is_page('past-events')) echo 'class="current-menu-item"'; ?>><a href="<?php echo get_post_type_archive_link('event'); ?>">Events</a></li>
-                        <li <?php if (get_post_type() == 'campus') echo 'class="current-menu-item"' ?>><a href="<?php echo get_post_type_archive_link('campus') ?>">Campuses</a></li>
+                        <li <?php if (get_post_type() == 'program') echo 'class="current-menu-item"' ?>><a href="<?php echo get_post_type_archive_link('program') ?>">学科情報</a></li>
+                        <li <?php if (get_post_type() == 'event' or is_page('past-events')) echo 'class="current-menu-item"'; ?>><a href="<?php echo get_post_type_archive_link('event'); ?>">イベント</a></li>
+                        <li <?php if (get_post_type() == 'campus') echo 'class="current-menu-item"' ?>><a href="<?php echo get_post_type_archive_link('campus') ?>">キャンパス</a></li>
                         <li <?php if (get_post_type() == 'post') echo 'class="current-menu-item"' ?>>
                             <!-- post_typeデフォルトだと'post'  -->
-                            <a href="<?php echo site_url('/blog'); ?>">Blog</a>
+                            <a href="<?php echo site_url('/blog'); ?>">学事課情報</a>
                         </li>
                     </ul>
                 </nav>
