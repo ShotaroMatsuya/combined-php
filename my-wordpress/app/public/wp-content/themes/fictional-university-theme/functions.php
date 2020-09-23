@@ -63,8 +63,8 @@ function university_files()
         wp_enqueue_script('main-university-js', 'http://localhost:3000/bundled.js', NULL, '1.0', true);
     } else {
         wp_enqueue_script('our-vendors-js', get_theme_file_uri('/bundled-assets/vendors~scripts.9678b4003190d41dd438.js'), NULL, '1.0', true);
-        wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.18e8339f439bfb50e8dc.js'), NULL, '1.0', true);
-        wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.18e8339f439bfb50e8dc.css'));
+        wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.6809f7cb89df202f6939.js'), NULL, '1.0', true);
+        wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.6809f7cb89df202f6939.css'));
     }
     wp_localize_script('main-university-js', 'universityData', array( //指定されたjsファイル内にdataを渡すことができるBuilt-in-function
         'root_url' => get_site_url(), //現在のurlを取得
@@ -164,7 +164,7 @@ function ourLoginCSS()
 {
     wp_enqueue_style('custom-google-fonts', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
 
-    wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.18e8339f439bfb50e8dc.css'));
+    wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.6809f7cb89df202f6939.css'));
 }
 
 add_filter('login_headertitle', 'ourLoginTitle');
@@ -172,6 +172,13 @@ function ourLoginTitle()
 {
     return get_bloginfo('name');
 }
+function login_message()
+{
+    $message = '<div class="message"><h3>guest user用アカウント</h3><hr/><p>MailAddress:<span style="font-weight:bold;">guest@test.com</span></p><p>password:<span style="font-weight:bold;">testtest</span></p></div>
+    ';
+    return $message;
+}
+add_filter('login_message', 'login_message');
 // Force note posts to be private
 add_filter('wp_insert_post_data', 'makeNotePrivate', 10, 2); //post が投稿(削除/編集)されてdbに保存される際に呼び出される
 //'makeNotePrivateが２つの引数を受け取っているのでfilterにさらに２つの引数を追加(10は複数のfilterがセットされたときの優先順位、2は引数の数を表している
