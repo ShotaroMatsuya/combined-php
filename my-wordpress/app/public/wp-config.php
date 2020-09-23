@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The base configuration for WordPress
  *
@@ -19,23 +20,24 @@
  */
 
 // ** MySQL settings - You can get this info from your web host ** //
-/** The name of the database for WordPress */
-define( 'DB_NAME', 'local' );
+if (strstr($_SERVER['SERVER_NAME'], 'fictional-university.local')) {
+	define('DB_NAME', 'local');
+	define('DB_USER', 'root');
+	define('DB_PASSWORD', 'root');
+	define('DB_HOST', 'localhost');
+} else {
+	define('DB_NAME', 'greatspirit_student');
+	define('DB_USER', 'greatspirit');
+	define('DB_PASSWORD', 'DTU6jRSy');
+	define('DB_HOST', 'mysql720.db.sakura.ne.jp');
+}
 
-/** MySQL database username */
-define( 'DB_USER', 'root' );
-
-/** MySQL database password */
-define( 'DB_PASSWORD', 'root' );
-
-/** MySQL hostname */
-define( 'DB_HOST', 'localhost' );
 
 /** Database Charset to use in creating database tables. */
-define( 'DB_CHARSET', 'utf8' );
+define('DB_CHARSET', 'utf8');
 
 /** The Database Collate type. Don't change this if in doubt. */
-define( 'DB_COLLATE', '' );
+define('DB_COLLATE', '');
 
 /**
  * Authentication Unique Keys and Salts.
@@ -63,14 +65,14 @@ define('NONCE_SALT',       'io1EeCH6sFnvucY0dynVC0uuCTRXMJySAyTGCb0j7fD8VnTlwr5b
  */
 $table_prefix = 'wp_';
 
-
+//na_matsutani_wp03
 
 
 /* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */
-if ( ! defined( 'ABSPATH' ) ) {
-	define( 'ABSPATH', dirname( __FILE__ ) . '/' );
+if (!defined('ABSPATH')) {
+	define('ABSPATH', dirname(__FILE__) . '/');
 }
 
 /** Sets up WordPress vars and included files. */
