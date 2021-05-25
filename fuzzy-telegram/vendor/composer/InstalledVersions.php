@@ -27,12 +27,12 @@ class InstalledVersions
 private static $installed = array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => '0d3250a6ed62a433c065d5a7682dc5622da6cfe8',
     'name' => 'slim/slim-skeleton',
   ),
   'versions' => 
@@ -314,12 +314,12 @@ private static $installed = array (
     ),
     'slim/slim-skeleton' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => '0d3250a6ed62a433c065d5a7682dc5622da6cfe8',
     ),
     'symfony/config' => 
     array (
