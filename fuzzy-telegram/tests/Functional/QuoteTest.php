@@ -7,7 +7,7 @@ class QuoteTest extends BaseTestCase
     public function testNumberOfCategories(){
         $quote = new \Quote(null, null);
         $categories = $quote->getCategories();
-        $this->assertEquals(7, sizeof($categories));
+        $this->assertEquals(5, sizeof($categories));
     }
 
     public function testCategoryListContainsManagement(){
