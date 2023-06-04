@@ -1,0 +1,1 @@
+2020/09/04 19:45:33 [error] 8545#0: *1198 directory index of "/Users/matsuyashotaro/Local Sites/fictional-university/app/public/wp-content/themes/fictional-university-theme/images/" is forbidden, client: 127.0.0.1, server: , request: "GET /wp-content/themes/fictional-university-theme/images/ HTTP/1.0", host: "fictional-university.local"
