@@ -1,0 +1,50 @@
+version: '3.9'
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/web/Dockerfile
+    ports:
+      - '80:80'
+    volumes:
+      - ./app:/var/www/html
+    depends_on:
+      - php
+      - postgres
+  php:
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    volumes:
+      - ./app:/var/www/html
+      # xdebug
+      - ./docker/app/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+  postgres:
+    build:
+      context: .
+      dockerfile: docker/db/Dockerfile.postgres
+    volumes:
+      - data:/var/lib/postgresql/data
+      - ./docker/db/init:/docker-entrypoint-initdb.d
+    ports:
+      - '5432:5432'
+  mysql:
+    build:
+      context: .
+      dockerfile: docker/db/Dockerfile.mysql
+    volumes:
+      - data:/var/lib/mysql
+      - ./docker/db/init:/docker-entrypoint-initdb.d
+      # - ./env/conf/my.cnf:/etc/mysql/conf.d/my.cnf
+    ports:
+      - '3306:3306'
+
+  composer:
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile.composer
+    volumes:
+      - ./app:/var/www/html
+
+volumes:
+  data:
