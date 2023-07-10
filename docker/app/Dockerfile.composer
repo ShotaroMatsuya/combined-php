@@ -1,0 +1,3 @@
+FROM composer/composer:2
+
+ENTRYPOINT [ "composer", "--ignore-platform-reqs" ]
