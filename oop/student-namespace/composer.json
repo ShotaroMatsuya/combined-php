@@ -1,0 +1,18 @@
+{
+    "name": "smat/oop",
+    "description": "oop bootcamp",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "smat710",
+            "email": "test@test.com"
+        }
+    ],
+    "autoload": {
+        "psr-4":{
+            "":"src"
+        }
+    },
+    "require": {}
+}
