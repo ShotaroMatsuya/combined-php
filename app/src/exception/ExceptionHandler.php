@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace App\Exception;
 use App\Helpers\App;
+use ErrorException;
 use Throwable;
 
 class ExceptionHandler 
@@ -19,6 +20,11 @@ class ExceptionHandler
         exit;
     }
 
+
+    public function convertWarningsAndNoticesToException($severity, $message, $file, $line)
+    {
+        throw new ErrorException($message, $severity, $severity, $file, $line);
+    }
 
 
 }
