@@ -10,7 +10,7 @@ services:
       - ./app:/var/www/html
     depends_on:
       - php
-      - postgres
+      # - postgres
   php:
     build:
       context: .
