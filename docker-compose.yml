@@ -10,7 +10,7 @@ services:
       - ./app:/var/www/html
     depends_on:
       - php
-      # - postgres
+      - mysql
   php:
     build:
       context: .
@@ -33,9 +33,9 @@ services:
       context: .
       dockerfile: docker/db/Dockerfile.mysql
     volumes:
-      - data:/var/lib/mysql
+      - data1:/var/lib/mysql
       - ./docker/db/init:/docker-entrypoint-initdb.d
-      # - ./env/conf/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
     ports:
       - '3306:3306'
 
@@ -48,3 +48,4 @@ services:
 
 volumes:
   data:
+  data1:

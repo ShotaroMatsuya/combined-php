@@ -6,7 +6,7 @@ RUN apk update
 RUN set -ex \
     && apk --no-cache add postgresql-dev autoconf
 RUN docker-php-ext-configure intl
-RUN docker-php-ext-install pdo pdo_pgsql pgsql intl mysqli
+RUN docker-php-ext-install pdo pdo_pgsql pdo_mysql pgsql intl mysqli
 
 # Xdebugをインストールした後、依存パッケージを削除
 RUN apk add --no-cache --virtual .xdebug-deps $PHPIZE_DEPS linux-headers \
