@@ -10,11 +10,11 @@ abstract class QueryBuilder implements DMLDefinitionInterface
 {
     use Query;
     protected $connection; // PDO or mysqli
-    protected string $table;
+    protected $table;
     protected $statement; // PDOStatement or mysqli_stmt
-    protected string | array $fields;
-    protected array $placeholders;
-    protected array $bindings; // name = ? ['terry']
+    protected $fields;
+    protected $placeholders;
+    protected $bindings; // name = ? ['terry']
     protected $operation = self::DML_TYPE_SELECT; //dml SELECT, UPDATE, INSERT, DELETE
 
     const OPERATORS = ['=', '>=', '>', '<=', '<', '<>'];

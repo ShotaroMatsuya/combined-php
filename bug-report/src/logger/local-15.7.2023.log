@@ -1,0 +1,32 @@
+2023-07-15 20:35:25 - Level: info - Message: new bug report created - Context: {"id":40,"type":"Audio"}
+2023-07-15 20:35:26 - Level: info - Message: bug report updated - Context: {"id":35,"type":"Audio"}
+2023-07-15 20:36:42 - Level: info - Message: new bug report created - Context: {"id":41,"type":"Audio"}
+2023-07-15 20:36:42 - Level: info - Message: bug report updated - Context: {"id":36,"type":"Audio"}
+2023-07-15 20:37:02 - Level: info - Message: new bug report created - Context: {"id":42,"type":"Audio"}
+2023-07-15 20:37:02 - Level: info - Message: bug report updated - Context: {"id":37,"type":"Audio"}
+2023-07-15 20:37:21 - Level: info - Message: new bug report created - Context: {"id":43,"type":"Audio"}
+2023-07-15 20:37:21 - Level: info - Message: bug report updated - Context: {"id":38,"type":"Audio"}
+2023-07-15 20:37:31 - Level: info - Message: new bug report created - Context: {"id":44,"type":"Audio"}
+2023-07-15 20:37:31 - Level: info - Message: bug report updated - Context: {"id":39,"type":"Audio"}
+2023-07-15 20:37:31 - Level: info - Message: bug report deleted - Context: {"id":39,"type":"Audio"}
+2023-07-15 20:37:44 - Level: info - Message: new bug report created - Context: {"id":45,"type":"Audio"}
+2023-07-15 20:37:44 - Level: info - Message: bug report updated - Context: {"id":40,"type":"Audio"}
+2023-07-15 20:37:44 - Level: info - Message: bug report deleted - Context: {"id":40,"type":"Audio"}
+2023-07-15 20:37:49 - Level: info - Message: bug report deleted - Context: {"id":32,"type":"Audio"}
+2023-07-15 20:37:52 - Level: info - Message: bug report deleted - Context: {"id":33,"type":"Audio"}
+2023-07-15 20:37:54 - Level: info - Message: bug report deleted - Context: {"id":35,"type":"Audio"}
+2023-07-15 20:37:56 - Level: info - Message: bug report deleted - Context: {"id":34,"type":"Audio"}
+2023-07-15 20:37:58 - Level: info - Message: bug report deleted - Context: {"id":37,"type":"Audio"}
+2023-07-15 20:38:00 - Level: info - Message: bug report deleted - Context: {"id":36,"type":"Audio"}
+2023-07-15 20:38:01 - Level: info - Message: bug report deleted - Context: {"id":41,"type":"Audio"}
+2023-07-15 20:38:03 - Level: info - Message: bug report deleted - Context: {"id":38,"type":"Audio"}
+2023-07-15 20:38:05 - Level: info - Message: bug report deleted - Context: {"id":42,"type":"Audio"}
+2023-07-15 20:38:07 - Level: info - Message: bug report deleted - Context: {"id":43,"type":"Audio"}
+2023-07-15 20:38:08 - Level: info - Message: bug report deleted - Context: {"id":44,"type":"Audio"}
+2023-07-15 20:38:10 - Level: info - Message: bug report deleted - Context: {"id":45,"type":"Audio"}
+2023-07-15 20:38:14 - Level: info - Message: new bug report created - Context: {"id":46,"type":"Audio"}
+2023-07-15 20:38:14 - Level: info - Message: bug report updated - Context: {"id":46,"type":"Audio"}
+2023-07-15 20:38:14 - Level: info - Message: bug report deleted - Context: {"id":46,"type":"Audio"}
+2023-07-15 20:38:33 - Level: info - Message: new bug report created - Context: {"id":47,"type":"Audio"}
+2023-07-15 20:38:33 - Level: info - Message: bug report updated - Context: {"id":47,"type":"Audio"}
+2023-07-15 20:38:33 - Level: info - Message: bug report deleted - Context: {"id":47,"type":"Audio"}

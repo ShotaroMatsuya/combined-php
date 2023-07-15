@@ -20,8 +20,8 @@ class BugReport extends Entity
 
     public function setReportType(string $reportType)
     {
-       $this->report_type = $reportType;
-       return $this;
+        $this->report_type = $reportType;
+        return $this;
     }
 
     public function getReportType(): string
