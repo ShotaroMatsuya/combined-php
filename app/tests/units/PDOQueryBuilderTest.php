@@ -45,7 +45,7 @@ class PDOQueryBuilderTest extends TestCase
             ->first();
 
         self::assertNotNull($result);
-        self::assertSame($id, (string)$result->id);
+        self::assertSame($id, $result->id);
     }
 
     public function testItCanPerformSelectQueryWithMultipleWhereClause()
@@ -59,7 +59,7 @@ class PDOQueryBuilderTest extends TestCase
             ->runQuery()
             ->first();
         self::assertNotNull($result);
-        self::assertSame($id, (string)$result->id);
+        self::assertSame($id, $result->id);
         self::assertSame('Report Type 1', $result->report_type);
     }
 
@@ -69,7 +69,7 @@ class PDOQueryBuilderTest extends TestCase
         $result = $this->queryBuilder->table('reports')
             ->select('*')->find($id);
         self::assertNotNull($result);
-        self::assertSame($id, (string)$result->id);
+        self::assertSame($id, $result->id);
         self::assertSame('Report Type 1', $result->report_type);
     }
 
@@ -79,7 +79,7 @@ class PDOQueryBuilderTest extends TestCase
         $result = $this->queryBuilder->table('reports')
             ->select('*')->findOneBy('report_type', 'Report Type 1');
         self::assertNotNull($result);
-        self::assertSame($id, (string)$result->id);
+        self::assertSame($id, $result->id);
         self::assertSame('Report Type 1', $result->report_type);
     }
 
@@ -93,7 +93,7 @@ class PDOQueryBuilderTest extends TestCase
         self::assertEquals(1, $count);
         $result = $this->queryBuilder->select('*')->find($id);
         self::assertNotNull($result);
-        self::assertSame($id, (string)$result->id);
+        self::assertSame($id, $result->id);
         self::assertSame('Report Type 1 updated', $result->report_type);
     }
     public function testItCanDeleteGivenId()
