@@ -61,7 +61,7 @@ abstract class QueryBuilder implements DMLDefinitionInterface
         return $this;
     }
 
-    public function create(array $data)
+    public function create(array $data): int
     {
         $this->fields = '`' . implode('`, `', array_keys($data)) . '`';
         foreach ($data as $value){
@@ -71,7 +71,7 @@ abstract class QueryBuilder implements DMLDefinitionInterface
         $query = $this->prepare($this->getQuery(self::DML_TYPE_INSERT));
         $this->statement = $this->execute($query);
 
-        return $this->lastInsertedId();
+        return (int)$this->lastInsertedId();
     }
 
     public function update(array $data)
