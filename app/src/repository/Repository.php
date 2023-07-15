@@ -76,7 +76,7 @@ abstract class Repository implements RepositoryInterface
 
     public function delete (Entity $entity, array $conditions = []): void
     {
-        $this->queryBuilder->table(static::$table)->delete($entity->toArray());
+        $this->queryBuilder->table(static::$table)->delete();
         foreach ($conditions as $condition){
             $this->queryBuilder->where(...$condition);
         }
