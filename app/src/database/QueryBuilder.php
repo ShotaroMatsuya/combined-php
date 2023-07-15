@@ -1,6 +1,9 @@
 <?php 
 
 namespace App\Database;
+
+use App\Contracts\DatabaseConnectionInterface;
+use App\Contracts\DMLDefinitionInterface;
 abstract class QueryBuilder implements DMLDefinitionInterface
 {
     use Query;
