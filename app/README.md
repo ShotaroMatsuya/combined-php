@@ -11,3 +11,12 @@ alias phpunit="./vendor/phpunit/phpunit/phpunit"
 phpunit --version
 PHPUnit 10.2.5 by Sebastian Bergmann and contributors.
 ```
+
+### option
+
+`--bootstrap` option:  
+this option allows us to run some code before the tests run
+
+```bash
+phpunit --bootstrap='vendor/autoload.php'
+```
