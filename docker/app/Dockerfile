@@ -14,10 +14,6 @@ RUN apk add --no-cache --virtual .xdebug-deps $PHPIZE_DEPS linux-headers \
     && docker-php-ext-enable xdebug \
     && apk del -f .xdebug-deps
 
-# Xdebugの設定
-RUN echo 'xdebug.mode=develop,debug,coverage' >> /usr/local/etc/php/conf.d/99-xdebug.ini
-
-
 # 保守用ツールのインストール
 RUN apk add --no-cache lsof sysstat procps iotop mtr net-tools bind-tools iptables strace
 
