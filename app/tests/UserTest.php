@@ -2,6 +2,7 @@
 
 use App\Mailer2;
 use App\User;
+use App\User2;
 use PHPUnit\Framework\TestCase;
 
 
@@ -21,5 +22,18 @@ class UserTest extends TestCase
         
         $this->assertTrue($user->notify('Hello!'));
     } 
+    public function testNotifyReturnsTruePassingDepsAsCallable()
+    {
+        $user = new User2('dave@example.com');
 
+        $user->setMailerCallable(function() {
+
+            echo "mocked";
+
+            return true;
+
+        });
+    
+        $this->assertTrue($user->notify('Hello!'));
+    }
 }
