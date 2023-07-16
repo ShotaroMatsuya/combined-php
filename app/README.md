@@ -20,3 +20,12 @@ this option allows us to run some code before the tests run
 ```bash
 phpunit --bootstrap='vendor/autoload.php'
 ```
+
+## mockery
+
+Mockery is a mock object framework that offers an alternative to this with a different way of defining and working with mock objects, plus some additional functionality that phpunit doesn't provide.
+
+```bash
+composer require mockery/mockery --dev
+
+```
